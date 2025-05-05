@@ -4,8 +4,9 @@ from datetime import datetime
 
 def main():
     # Define the directory containing the Markdown files
-    posts_dir = './posts'
-    output_dir = './blog'
+    posts_dir = './docs/posts'
+    output_dir = './docs/blog'
+    index_output = './docs/index.html'
 
     # Read template.html
     with open("template.html", 'r', encoding='utf-8') as file:
@@ -40,10 +41,10 @@ def main():
                         extras=['fenced-code-blocks', 'header-ids', 'metadata']
                     )
 
-                    # Fix image paths
+                    # Fix image paths (use absolute path from site root)
                     html_content = html_content.replace(
                         '<img src="',
-                        f'<img src="posts/{post_directory}/'
+                        f'<img src="/docs/posts/{post_directory}/'
                     )
 
                     # Create the full HTML content
@@ -84,10 +85,10 @@ def main():
     index_html = template.replace('{{ content }}', index_content)
     index_html = index_html.replace('{{ title }}', "My Blog")
 
-    # Save index.html
-    with open("index.html", 'w', encoding='utf-8') as file:
+    # Save index.html directly to docs/
+    with open(index_output, 'w', encoding='utf-8') as file:
         file.write(index_html)
-    print("Rendered index.html")
+    print(f"Rendered {index_output}")
 
 if __name__ == "__main__":
     main() 
