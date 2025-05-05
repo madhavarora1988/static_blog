@@ -43,7 +43,7 @@ def main():
                     # Fix image paths
                     html_content = html_content.replace(
                         '<img src="',
-                        f'<img src="/posts/{post_directory}/'
+                        f'<img src="posts/{post_directory}/'
                     )
 
                     # Create the full HTML content
@@ -53,7 +53,7 @@ def main():
                     # Save post metadata for index
                     posts_meta.append({
                         'title': title,
-                        'url': f'/blog/{post_directory}.html',
+                        'url': f'blog/{post_directory}.html',
                         'date': datetime.fromtimestamp(os.path.getctime(file_path))
                     })
 
