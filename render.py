@@ -44,7 +44,7 @@ def main():
                     # Fix image paths (use absolute path from site root)
                     html_content = html_content.replace(
                         '<img src="',
-                        f'<img src="/docs/posts/{post_directory}/'
+                        f'<img src="posts/{post_directory}/'
                     )
 
                     # Create the full HTML content
