@@ -6,15 +6,37 @@
     <title>About</title>
     <style>
         :root {
+            --bg-color: #111;
+            --text-color: #fff;
+            --border-color: #4444;
+            --link-color: #a084ca;
+            --link-hover: #d1b3ff;
+            --code-bg: #232323;
+            --code-color: #f8f8f2;
             color-scheme: light dark;
         }
+        html[data-theme='light'] {
+            --bg-color: #fff;
+            --text-color: #181818;
+            --border-color: #e0e0e0;
+            --link-color: #6b3fa0;
+            --link-hover: #a084ca;
+            --code-bg: #f5f5f5;
+            --code-color: #232323;
+        }
         html {
+            background: var(--bg-color);
+            color: var(--text-color);
             font-family: system-ui, sans-serif;
             max-width: 120ch;
             padding: 3em 1em;
             margin: auto;
             line-height: 1.5;
             font-size: 1.25em;
+        }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
         }
         .main-container {
             display: flex;
@@ -27,19 +49,25 @@
         .right-col {
             flex: 1 1 0%;
             min-width: 0;
-            border-left: 2px solid #4444;
+            border-left: 2px solid var(--border-color);
             padding-left: 2em;
+        }
+        pre, code {
+            background: var(--code-bg) !important;
+            color: var(--code-color) !important;
+            border-radius: 4px;
         }
         pre {
             padding: 1em;
             overflow-x: auto;
-            background: #f5f5f5;
-            border-radius: 4px;
         }
-        @media (prefers-color-scheme: dark) {
-            pre {
-                background: #333;
-            }
+        code {
+            padding: 0.2em 0.4em;
+            font-size: 0.95em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-color);
+            font-weight: bold;
         }
         img {
             max-width: 100%;
@@ -76,7 +104,7 @@
             gap: 1.5em;
         }
         .nav-link {
-            color: #6b3fa0;
+            color: var(--link-color);
             font-weight: 600;
             font-size: 1.15em;
             text-decoration: none;
@@ -84,7 +112,34 @@
         }
         .nav-link:hover {
             text-decoration: underline;
-            color: #a084ca;
+            color: var(--link-hover);
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+        a:hover {
+            color: var(--link-hover);
+        }
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.3em;
+            margin-left: 1em;
+            color: var(--link-color);
+            transition: color 0.2s, border-color 0.2s;
+            vertical-align: middle;
+            width: 2em;
+            height: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle:hover {
+            color: var(--link-hover);
+            border-color: var(--link-hover);
         }
     </style>
 </head>
@@ -94,6 +149,7 @@
         <div class="nav-links">
             <a href="about.html" class="nav-link">About</a>
             <a href="subscribe.html" class="nav-link">Subscribe</a>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle day/night mode">☀️</button>
         </div>
     </div>
     <div class="main-container">
@@ -107,5 +163,27 @@
             
         </div>
     </div>
+    <script>
+    (function() {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            toggleBtn.innerHTML = theme === 'light' ? '☀️' : '🌙';
+        }
+        // Initial theme
+        const saved = localStorage.getItem('theme');
+        if (saved) {
+            setTheme(saved);
+        } else {
+            setTheme(prefersDark ? 'dark' : 'light');
+        }
+        toggleBtn.addEventListener('click', function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            setTheme(current === 'light' ? 'dark' : 'light');
+        });
+    })();
+    </script>
 </body>
 </html> 

@@ -50,7 +50,8 @@ def main():
                     )
 
                     # Create the full HTML content
-                    full_html = template.replace('{{ content }}', html_content)
+                    full_html = template.replace('<!--DAILY_THOUGHTS-->', html_content)
+                    full_html = full_html.replace('<!--ARTICLES-->', '')
                     full_html = full_html.replace('{{ title }}', title)
 
                     # Save post metadata for index
