@@ -10,11 +10,25 @@
         }
         html {
             font-family: system-ui, sans-serif;
-            max-width: 70ch;
+            max-width: 120ch;
             padding: 3em 1em;
             margin: auto;
             line-height: 1.5;
             font-size: 1.25em;
+        }
+        .main-container {
+            display: flex;
+            gap: 2em;
+        }
+        .left-col {
+            flex: 3 1 0%;
+            min-width: 0;
+        }
+        .right-col {
+            flex: 1 1 0%;
+            min-width: 0;
+            border-left: 2px solid #4444;
+            padding-left: 2em;
         }
         pre {
             padding: 1em;
@@ -34,16 +48,61 @@
         #head-link {
             text-decoration: none;
             color: inherit;
-            font-size: 1.5em;
+            font-size: 2.2em;
             font-weight: bold;
+            margin-right: 2em;
         }
         #head-link:hover {
             text-decoration: underline;
         }
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .right-col {
+                border-left: none;
+                padding-left: 0;
+                margin-top: 2em;
+            }
+        }
+        .header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5em;
+        }
+        .nav-link {
+            color: #6b3fa0;
+            font-weight: 600;
+            font-size: 1.15em;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+            color: #a084ca;
+        }
     </style>
 </head>
 <body>
-    <a href="./" id="head-link">My Blog</a>
-    {{ content }}
+    <div class="header-bar">
+        <a href="./" id="head-link">Madhav Arora's Blog</a>
+        <div class="nav-links">
+            <a href="about.html" class="nav-link">About</a>
+            <a href="subscribe.html" class="nav-link">Subscribe</a>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="left-col">
+            <!--DAILY_THOUGHTS-->
+        </div>
+        <div class="right-col">
+            <!--ARTICLES-->
+        </div>
+    </div>
 </body>
 </html> 

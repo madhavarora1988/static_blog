@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Blog</title>
+    <title>Madhav Arora's Blog</title>
     <style>
         :root {
             color-scheme: light dark;
         }
         html {
             font-family: system-ui, sans-serif;
-            max-width: 70ch;
+            max-width: 120ch;
             padding: 3em 1em;
             margin: auto;
             line-height: 1.5;
             font-size: 1.25em;
+        }
+        .main-container {
+            display: flex;
+            gap: 2em;
+        }
+        .left-col {
+            flex: 3 1 0%;
+            min-width: 0;
+        }
+        .right-col {
+            flex: 1 1 0%;
+            min-width: 0;
+            border-left: 2px solid #4444;
+            padding-left: 2em;
         }
         pre {
             padding: 1em;
@@ -34,28 +48,86 @@
         #head-link {
             text-decoration: none;
             color: inherit;
-            font-size: 1.5em;
+            font-size: 2.2em;
             font-weight: bold;
+            margin-right: 2em;
         }
         #head-link:hover {
             text-decoration: underline;
         }
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .right-col {
+                border-left: none;
+                padding-left: 0;
+                margin-top: 2em;
+            }
+        }
+        .header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5em;
+        }
+        .nav-link {
+            color: #6b3fa0;
+            font-weight: 600;
+            font-size: 1.15em;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+            color: #a084ca;
+        }
     </style>
 </head>
 <body>
-    <a href="./" id="head-link">My Blog</a>
-    <h1>Welcome to My Blog</h1>
+    <div class="header-bar">
+        <a href="./" id="head-link">Madhav Arora's Blog</a>
+        <div class="nav-links">
+            <a href="about.html" class="nav-link">About</a>
+            <a href="subscribe.html" class="nav-link">Subscribe</a>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="left-col">
+            <h2>Daily Thoughts</h2>
+<h3>May 2, 2025</h3>
+<p>I've been running prompts through the MLX 4bit quantized version, <a href="https://huggingface.co/mlx-community/Qwen3-8B-4bit">mlx-community/Qwen3-8B-4bit</a>. I'm using <a href="https://github.com/jmorganca/llm-mlx">llm-mlx</a> like this:</p>
 
-<p>This is a minimalist blog created with Python and Markdown. It's simple, fast, and easy to maintain.</p>
+<pre><code>llm install llm-mlx
+llm mlx download-model mlx-community/Qwen3-8B-4bit
+</code></pre>
 
-<h2>Recent Posts</h2>
+<p>This pulls 4.3GB of data and saves it to ~/.cache/huggingface/hub/models--mlx-community--Qwen3-8B-4bit.</p>
 
-<p>Here are my latest writings: </p>
+<p>I assigned it a default alias:</p>
 
-<h2>Posts</h2>
+<pre><code>llm aliases set q3 mlx-community/Qwen3-8B-4bit
+</code></pre>
+
+<p>I also added a default option for that model - this saves me from adding <code>-o unlimited 1</code> to every prompt which disables the default output token limit:</p>
+
+<pre><code>llm models options set q3 unlimited 1
+</code></pre>
+
+<p>And now I can run prompts: </p>
+
+        </div>
+        <div class="right-col">
+            <h2>Articles</h2>
 <ul>
-<li>[2025-05-05] <a href="blog/model_context_protocol_get_started.html">How to Get Started with Model Context Protocol</a></li>
-<li>[2025-05-05] <a href="blog/first-post.html">My First Blog Post</a></li>
+<li><strong>[5th May]</strong> <a href="blog/model_context_protocol_get_started.html">How to Get Started with Model Context Protocol</a></li>
+<li><strong>[5th May]</strong> <a href="blog/first-post.html">My First Blog Post</a></li>
 </ul>
+        </div>
+    </div>
 </body>
 </html> 

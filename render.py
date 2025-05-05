@@ -1,6 +1,8 @@
 import os
 import markdown2
 from datetime import datetime
+import re
+import html
 
 def main():
     # Define the directory containing the Markdown files
@@ -67,28 +69,67 @@ def main():
     # Sort posts by date, newest first
     posts_meta.sort(key=lambda x: x['date'], reverse=True)
 
-    # Create index.html
-    index_content = "<h1>Welcome to My Blog</h1>"
-    if os.path.exists("greetings.md"):
-        with open("greetings.md", 'r', encoding='utf-8') as file:
-            greeting = markdown2.markdown(file.read())
-            index_content = greeting
+    # --- Daily Thoughts Section ---
+    daily_dir = './docs/daily'
+    daily_entries = []
+    if os.path.exists(daily_dir):
+        for fname in os.listdir(daily_dir):
+            if fname.endswith('.md'):
+                date_str = fname.replace('.md', '')
+                try:
+                    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+                except ValueError:
+                    continue
+                with open(os.path.join(daily_dir, fname), 'r', encoding='utf-8') as f:
+                    md_content = f.read()
+                    html_content = markdown2.markdown(md_content, extras=['fenced-code-blocks', 'header-ids', 'metadata'])
+                daily_entries.append({'date': date_obj, 'html': html_content})
+        daily_entries.sort(key=lambda x: x['date'], reverse=True)
 
-    # Add post list
-    index_content += "\n<h2>Posts</h2>\n<ul>"
+    # Prepare daily thoughts HTML
+    daily_html = ""
+    if daily_entries:
+        daily_html += "<h2>Daily Thoughts</h2>"
+        for entry in daily_entries:
+            date_heading = entry['date'].strftime('%B %-d, %Y')
+            daily_html += f'\n<h3>{date_heading}</h3>\n{entry["html"]}'
+
+    # Prepare articles HTML
+    articles_html = "<h2>Articles</h2>\n<ul>"
     for post in posts_meta:
-        date_str = post['date'].strftime('%Y-%m-%d')
-        index_content += f'\n<li>[{date_str}] <a href="{post["url"]}">{post["title"]}</a></li>'
-    index_content += "\n</ul>"
+        day = post['date'].day
+        month = post['date'].strftime('%B')
+        suffix = 'th' if 11<=day<=13 else {1:'st',2:'nd',3:'rd'}.get(day%10, 'th')
+        date_str = f"{day}{suffix} {month}"
+        articles_html += f'\n<li><strong>[{date_str}]</strong> <a href="{post["url"]}">{post["title"]}</a></li>'
+    articles_html += "\n</ul>"
 
-    # Create the full index HTML
-    index_html = template.replace('{{ content }}', index_content)
-    index_html = index_html.replace('{{ title }}', "My Blog")
+    # Inject into template
+    index_html = template.replace('<!--DAILY_THOUGHTS-->', daily_html)
+    index_html = index_html.replace('<!--ARTICLES-->', articles_html)
+    index_html = index_html.replace('{{ title }}', "Madhav Arora's Blog")
 
     # Save index.html directly to docs/
     with open(index_output, 'w', encoding='utf-8') as file:
         file.write(index_html)
     print(f"Rendered {index_output}")
+
+    # Render About and Subscribe pages
+    for page in [
+        ("about.md", "About", "about.html"),
+        ("subscribe.md", "Subscribe", "subscribe.html")
+    ]:
+        md_file, page_title, html_file = page
+        if os.path.exists(md_file):
+            with open(md_file, 'r', encoding='utf-8') as f:
+                md_content = f.read()
+                html_content = markdown2.markdown(md_content, extras=['fenced-code-blocks', 'header-ids', 'metadata'])
+            page_html = template.replace('<!--DAILY_THOUGHTS-->', html_content)
+            page_html = page_html.replace('<!--ARTICLES-->', '')
+            page_html = page_html.replace('{{ title }}', page_title)
+            with open(os.path.join('docs', html_file), 'w', encoding='utf-8') as f:
+                f.write(page_html)
+            print(f"Rendered docs/{html_file}")
 
 if __name__ == "__main__":
     main() 
