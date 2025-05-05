@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        html {
+            font-family: system-ui, sans-serif;
+            max-width: 70ch;
+            padding: 3em 1em;
+            margin: auto;
+            line-height: 1.5;
+            font-size: 1.25em;
+        }
+        pre {
+            padding: 1em;
+            overflow-x: auto;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        @media (prefers-color-scheme: dark) {
+            pre {
+                background: #333;
+            }
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        #head-link {
+            text-decoration: none;
+            color: inherit;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        #head-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" id="head-link">My Blog</a>
+    {{ content }}
+</body>
+</html> 
