@@ -145,10 +145,11 @@
 </head>
 <body>
     <div class="header-bar">
-        <a href="./" id="head-link">Madhav Arora's Blog</a>
+        <a href="/" id="head-link">Madhav Arora's Blog</a>
         <div class="nav-links">
-            <a href="about.html" class="nav-link">About</a>
-            <a href="subscribe.html" class="nav-link">Subscribe</a>
+            <a href="/" class="nav-link">Home</a>
+            <a href="/about.html" class="nav-link">About</a>
+            <a href="/subscribe.html" class="nav-link">Subscribe</a>
             <button class="theme-toggle" id="theme-toggle" title="Toggle day/night mode">☀️</button>
         </div>
     </div>
@@ -222,19 +223,21 @@ Source: <a href="https://modelcontextprotocol.io/introduction">https://modelcont
 
 <p>If you just want to run the demo locally, the quick‑start is:</p>
 
-<pre><code># 1. Clone the repo
+<div class="codehilite">
+<pre><span></span><code><span class="c1"># 1. Clone the repo</span>
 git clone https://github.com/madhavarora1988/mcp_sqlite_poc.git
-cd mcp_sqlite_poc
+<span class="nb">cd</span> mcp_sqlite_poc
 
-# 2. Install dependencies
+<span class="c1"># 2. Install dependencies</span>
 pip install -r requirements.txt
 
-# 3. (Optional) generate a fresh SQLite DB with sample tables &amp; rows
+<span class="c1"># 3. (Optional) generate a fresh SQLite DB with sample tables &amp; rows</span>
 python generate_sample_db.py
 
-# 4. Fire up the MCP server (read‑only by default)
+<span class="c1"># 4. Fire up the MCP server (read‑only by default)</span>
 python server.py
 </code></pre>
+</div>
 
 <p>By default the server listens on <strong>stdio</strong>, which is exactly what Claude Desktop expects when it auto‑detects local MCP servers. If you’d rather expose an HTTP port, simply change the <code>transport</code> parameter in <code>app.run_async()</code>.</p>
 
@@ -242,12 +245,14 @@ python server.py
 
 <h3 id="project-layout">Project layout</h3>
 
-<pre><code>.
+<div class="codehilite">
+<pre><span></span><code>.
 ├── generate_sample_db.py  # creates sample.db with metrics, users, orders…
 ├── requirements.txt       # FastMCP, aiosqlite, pydantic…
 ├── server.py              # the SQLite MCP server
 └── README.md              # extended docs &amp; Env vars
 </code></pre>
+</div>
 
 <p><strong>generate<em>sample</em>db.py</strong> bootstraps a realistic e‑commerce schema with products, orders, and an <code>order_analytics</code> view so you have something to query straight away. <br />
 <strong>server.py</strong> exposes six MCP tools and handles validation, logging, and optional read‑only mode.</p>
@@ -282,20 +287,22 @@ python server.py
 
 <p>Append (or merge) the following block so Claude knows how to start our SQLite server:</p>
 
-<pre><code>{
-  "mcpServers": {
-    "sqlite": {
-      "command": "&lt;absolute uv path&gt;",
-      "args": [
-        "--directory",
-        "&lt;Path to workspace&gt;",
-        "run",
-        "server.py"
-      ]
-    }
-  }
-}
+<div class="codehilite">
+<pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;mcpServers&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;sqlite&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute uv path&gt;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;args&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;--directory&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&lt;Path to workspace&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;run&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;server.py&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <ul>
 <li><p><strong><code>&lt;absolute uv path&gt;</code></strong> – full path to the <strong>uv</strong> executable (e.g. <code>/usr/local/bin/uv</code>).</p></li>
