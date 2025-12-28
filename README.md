@@ -20,7 +20,7 @@ A super simple static blog generator that converts Markdown files to HTML. No co
    ```
 
 2. Create a new post:
-   - Create a new directory under `posts/` with a unique name (e.g., `posts/my-new-post/`)
+   - Create a new directory under `docs/posts/` with a unique name (e.g., `docs/posts/my-new-post/`)
    - Add a `post.md` file in that directory
    - Add any images referenced in your post to the same directory
 
@@ -28,13 +28,9 @@ A super simple static blog generator that converts Markdown files to HTML. No co
    ```bash
    python render.py
    ```
+   This will generate the static HTML files directly in the `docs/` directory.
 
-4. Move the output to the `docs/` folder for GitHub Pages:
-   ```bash
-   python move_to_docs.py
-   ```
-
-5. Commit all files, including the `docs/` folder, to your git repository.
+4. Commit all files, including the `docs/` folder, to your git repository.
 
 ## Deploying to GitHub Pages
 
@@ -64,15 +60,18 @@ Post content goes here...
 
 ```
 .
-├── docs/             # Output directory for GitHub Pages
-│   ├── index.html
-│   ├── blog/
-│   └── posts/
-├── posts/            # Source posts (recommended to keep in git)
+├── docs/             # GitHub Pages root
+│   ├── index.html    # Generated home page
+│   ├── blog/         # Generated blog post HTML files
+│   ├── posts/        # Source posts (Markdown + Images)
+│   ├── daily/        # Source daily thoughts (Markdown)
+│   ├── about.html
+│   └── subscribe.html
 ├── render.py         # Script to generate the blog
-├── move_to_docs.py   # Script to move output to docs/
 ├── template.html     # HTML template for all pages
 ├── greetings.md      # Content for the index page
+├── about.md          # Content for the about page
+├── subscribe.md      # Content for the subscribe page
 ├── requirements.txt
 └── README.md
 ```

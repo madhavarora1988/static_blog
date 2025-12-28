@@ -53,6 +53,7 @@ def main():
                     full_html = template.replace('<!--DAILY_THOUGHTS-->', html_content)
                     full_html = full_html.replace('<!--ARTICLES-->', '')
                     full_html = full_html.replace('{{ title }}', title)
+                    full_html = full_html.replace('{{ base }}', '..')
 
                     # Save post metadata for index
                     posts_meta.append({
@@ -109,6 +110,7 @@ def main():
     index_html = template.replace('<!--DAILY_THOUGHTS-->', daily_html)
     index_html = index_html.replace('<!--ARTICLES-->', articles_html)
     index_html = index_html.replace('{{ title }}', "Madhav Arora's Blog")
+    index_html = index_html.replace('{{ base }}', '.')
 
     # Save index.html directly to docs/
     with open(index_output, 'w', encoding='utf-8') as file:
@@ -118,7 +120,8 @@ def main():
     # Render About and Subscribe pages
     for page in [
         ("about.md", "About", "about.html"),
-        ("subscribe.md", "Subscribe", "subscribe.html")
+        ("subscribe.md", "Subscribe", "subscribe.html"),
+        ("tools.md", "Tools", "tools.html")
     ]:
         md_file, page_title, html_file = page
         if os.path.exists(md_file):
@@ -128,6 +131,7 @@ def main():
             page_html = template.replace('<!--DAILY_THOUGHTS-->', html_content)
             page_html = page_html.replace('<!--ARTICLES-->', '')
             page_html = page_html.replace('{{ title }}', page_title)
+            page_html = page_html.replace('{{ base }}', '.')
             with open(os.path.join('docs', html_file), 'w', encoding='utf-8') as f:
                 f.write(page_html)
             print(f"Rendered docs/{html_file}")
